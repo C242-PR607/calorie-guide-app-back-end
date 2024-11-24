@@ -22,6 +22,7 @@ Request Body :
 
 ```json
 {
+  "email": "johndoe@gmail.com",
   "otp": "666666"
 }
 ```
@@ -29,6 +30,8 @@ Request Body :
 ## Add User Information
 
 Endpoint : POST /api/v1/auth/user_info
+
+Request Headers : Authorization (Bearer Token)
 
 Request Body :
 
