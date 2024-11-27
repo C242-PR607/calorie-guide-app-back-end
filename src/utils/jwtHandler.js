@@ -1,6 +1,6 @@
 const jwt = require("jsonwebtoken");
 
-class jwtHandler {
+class JwtHandler {
   static generateToken(payload) {
     return jwt.sign(payload, process.env.JWT_SECRET);
   }
@@ -10,4 +10,4 @@ class jwtHandler {
   }
 }
 
-module.exports = jwtHandler;
+module.exports = JwtHandler;

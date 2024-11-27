@@ -1,6 +1,6 @@
 const express = require("express");
 require("dotenv").config();
-const router = require("./routes");
+const router = require("./routes/index.routes");
 const ErrorMiddleware = require("./middlewares/error");
 const morgan = require("morgan");
 
@@ -12,6 +12,7 @@ app.use(morgan("dev"));
 
 app.use("/api/v1", router);
 
+app.use(ErrorMiddleware.notFound);
 app.use(ErrorMiddleware.errorHandler);
 
 app.listen(port, () => {
