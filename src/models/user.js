@@ -1,12 +1,12 @@
-const db = require("../config/dbConnection");
+const db = require("../config/database");
 const bcrypt = require("bcrypt");
 
 class UserModel {
-  static create(userData) {
+  static create(payload) {
     return new Promise(async (resolve, reject) => {
-      const hashedPassword = await bcrypt.hash(userData.password, 10);
+      const hashedPassword = await bcrypt.hash(payload.password, 10);
       const sql = `INSERT INTO users (email, password) VALUES (?, ?)`;
-      db.query(sql, [userData.email, hashedPassword], (err, results) => {
+      db.query(sql, [payload.email, hashedPassword], (err, results) => {
         if (err) return reject(err);
         resolve(results);
       });
@@ -33,10 +33,21 @@ class UserModel {
     });
   }
 
-  static update(id, userData) {
+  static update(payload, clause) {
     return new Promise((resolve, reject) => {
-      const sql = "UPDATE users SET ? WHERE id = ?";
-      db.query(sql, [userData, id], (err, results) => {
+      const date = new Date().toISOString().replace(/T/, " ").replace(/\..+/, "");
+      const sql = `UPDATE users SET ? , updated_at = ${JSON.stringify(date)} WHERE ?`;
+      db.query(sql, [payload, clause], (err, results) => {
+        if (err) return reject(err);
+        resolve(results);
+      });
+    });
+  }
+
+  static delete(clause) {
+    return new Promise((resolve, reject) => {
+      const sql = "DELETE FROM users WHERE ?";
+      db.query(sql, [clause], (err, results) => {
         if (err) return reject(err);
         resolve(results);
       });
