@@ -1,151 +1,331 @@
-# User API Spec
+# User API Specification
 
-## Register
+## Base URL
 
-Endpoint : POST /api/v1/auth/register
+- **Development:** `http://localhost:3000/api/v1`
+- **Staging:** 
+- **Production:** 
 
-Request Body :
+---
 
-```json
-{
-  "email": "johndoe@gmail.com",
-  "password": "john123",
-  "confirmPassword": "john123"
-}
-```
+### 1. **Register**
 
-## Verify OTP
+- **Endpoint:** `/auth/register`
+- **Method:** `POST`
+- **Request Body:**
+  ```json
+  {
+    "email": "user@example.com",
+    "password": "securepassword",
+    "confirmPassword": "securepassword"
+  }
+  ```
+- **Response (Success):**
+  - **Status Code:** `200 OK`
+  - **Response Body:**
+    ```json
+    {
+      "status": "success",
+      "message": "OTP sent successfully",
+      "data": {
+        "email": "user@example.com",
+        "token": "token"
+      }
+    }
+    ```
 
-Endpoint : POST /api/v1/auth/verify_otp
+### 2. **Verify OTP**
 
-Request Body :
+- **Endpoint:** `/auth/verify-otp`
+- **Method:** `POST`
+- **Headers:** `Authorization: Bearer {token}`
+- **Request Body:**
+  ```json
+  {
+    "otp": "123456"
+  }
+  ```
+- **Response (Success):**
+  - **Status Code:** `201 Created`
+  - **Response Body:**
+    ```json
+    {
+      "status": "success",
+      "message": "OTP verified successfully and user created",
+      "data": {
+          "id": "id",
+          "email": "user@example.com",
+          "token": "token",
+          "createdAt": "xxxx-xx-xx...",
+          "updatedAt": "xxxx-xx-xx..."
+      }
+    }
+    ```
 
-```json
-{
-  "otp": "666666"
-}
-```
+### 3. **Add User Information**
 
-## Add User Information
+- **Endpoint:** `/users/me`
+- **Method:** `POST`
+- **Headers:** `Authorization: Bearer {token}`
+- **Request Body:**
+  ```json
+  {
+    "name": "John Doe",
+    "age": 21,
+    "height": 170,
+    "weight": 55,
+    "gender": "Male"
+  }
+  ```
+- **Response (Success):**
+  - **Status Code:** `201 Created`
+  - **Response Body:**
+    ```json
+    {
+      "status": "success",
+      "message": "User information added successfully",
+      "data": {
+          "id": "xxxxx-xxx-xxx-...",
+          "email": "user@example.com",
+          "token": "token",
+          "createdAt": "xxxx-xx-xx...",
+          "updatedAt": "xxxx-xx-xx..."
+      }
+    }
+    ```
 
-Endpoint : POST /api/v1/auth/user_info
+### 4. **Login**
 
-Request Body :
+- **Endpoint:** `/auth/login`
+- **Method:** `POST`
+- **Request Body:**
+  ```json
+  {
+    "email": "user@example.com",
+    "password": "securepassword"
+  }
+  ```
+- **Response (Success):**
+  - **Status Code:** `200 OK`
+  - **Response Body:**
+    ```json
+    {
+      "status": "success",
+      "message": "Login successful",
+      "data": {
+          "id": "xxxxx-xxx-xxx-...",
+          "email": "user@example.com",
+          "token": "token",
+          "createdAt": "xxxx-xx-xx...",
+          "updatedAt": "xxxx-xx-xx..."
+      }
+    }
+    ```
 
-```json
-{
-  "name": "John Doe",
-  "age": 21,
-  "height": 170,
-  "weight": 55,
-  "gender": "Male"
-}
-```
+### 5. **Logout**
 
-## Login
+- **Endpoint:** `/auth/logout`
+- **Method:** `POST`
+- **Headers:** `Authorization: Bearer {token}`
+- **Response (Success):**
+  - **Status Code:** `200 OK`
+  - **Response Body:**
+    ```json
+    {
+      "status": "success",
+      "message": "Logout successful",
+      "data": {
+          "id": "xxxxx-xxx-xxx-...",
+          "email": "user@example.com",
+          "token": null,
+          "createdAt": "xxxx-xx-xx...",
+          "updatedAt": "xxxx-xx-xx..."
+      }
+    }
+    ```
 
-Endpoint : POST /api/v1/auth/login
+### 6. **Forgot Password**
 
-Request Body :
+- **Endpoint:** `/auth/forgot-password`
+- **Method:** `POST`
+- **Request Body:**
+  ```json
+  {
+    "email": "user@example.com"
+  }
+  ```
+- **Response (Success):**
+  - **Status Code:** `200 OK`
+  - **Response Body:**
+    ```json
+    {
+      "status": "success",
+      "message": "OTP sent successfully",
+      "data": {
+          "email": "user@example.com",
+          "token": "token"
+      }
+    }
+    ```
+#### **Verify OTP**
 
-```json
-{
-  "email": "johndoe@gmail.com",
-  "password": "john123"
-}
-```
+- **Endpoint:** `/auth/verify-otp`
+- **Method:** `POST`
+- **Headers:** `Authorization: Bearer {token}`
+- **Request Body:**
+  ```json
+  {
+    "otp": "123456"
+  }
+  ```
+- **Response (Success):**
+  - **Status Code:** `200 OK`
+  - **Response Body:**
+    ```json
+    {
+      "status": "success",
+      "message": "OTP verified successfully. Your reset password token has been set within 10 minutes. Please reset your password immediately",
+      "data": {
+          "email": "user@example.com",
+          "resetToken": "token"
+      }
+    }
+    ```
 
-## Logout
+### 7. **Reset Password**
 
-Endpoint : POST /api/v1/auth/logout
+- **Endpoint:** `/auth/reset-password`
+- **Method:** `PUT`
+- **Headers:** `Authorization: Bearer {token}`
+- **Request Body:**
+  ```json
+  {
+    "password": "newsecurepassword",
+    "confirmPassword": "newsecurepassword"
+  }
+  ```
+- **Response (Success):**
+  - **Status Code:** `200 OK`
+  - **Response Body:**
+    ```json
+    {
+      "status": "success",
+      "message": "Password reset successful. Please login with new password",
+      "data": {
+          "id": "xxxxx-xxx-xxx-...",
+          "email": "user@example.com",
+          "createdAt": "xxxx-xx-xx...",
+          "updatedAt": "xxxx-xx-xx..."
+      }
+    }
+    ```
 
-Request Headers : Authorization (Bearer Token)
+### 8. **Show Profile**
 
-## Forgot Password
+- **Endpoint:** `/users/me`
+- **Method:** `GET`
+- **Headers:** `Authorization: Bearer {token}`
+- **Response (Success):**
+  - **Status Code:** `200 OK`
+  - **Response Body:**
+    ```json
+    {
+      "status": "success",
+      "message": "Profile fetched successfully",
+      "data": {
+          "id": "xxxxx-xxx-xxx-...",
+          "email": "user@example.com",
+          "name": "John Doe",
+          "age": 21,
+          "height": 170,
+          "weight": 55,
+          "gender": "Male",
+          "createdAt": "xxxx-xx-xx...",
+          "updatedAt": "xxxx-xx-xx..."
+      }
+    }
+    ```
 
-Endpoint : POST /api/v1/auth/forgot_password
+### 9. **Update Profile**
 
-Request Body :
+- **Endpoint:** `/users/me`
+- **Method:** `PATCH`
+- **Headers:** `Authorization: Bearer {token}`
+- **Request Body:**
+  ```json
+  {
+    ...
+  }
+  ```
+- **Response (Success):**
+  - **Status Code:** `200 OK`
+  - **Response Body:**
+    ```json
+    {
+      "status": "success",
+      "message": "Profile updated successfully",
+      "data": {
+          "id": "xxxxx-xxx-xxx-...",
+          "email": "user@example.com",
+          "name": "John Doe",
+          "age": 21,
+          "height": 170,
+          "weight": 60,
+          "gender": "Male",
+          "createdAt": "xxxx-xx-xx...",
+          "updatedAt": "xxxx-xx-xx..."
+      }
+    }
+    ```
 
-```json
-{
-  "email": "johndoe@gmail.com"
-}
-```
+### 10. **Change Password**
 
-## Verify OTP
+- **Endpoint:** `/users/me/password`
+- **Method:** `PUT`
+- **Headers:** `Authorization: Bearer {token}`
+- **Request Body:**
+  ```json
+  {
+    "oldPassword": "oldpassword",
+    "newPassword": "newsecurepassword",
+    "confirmPassword": "newsecurepassword"
+  }
+  ```
+- **Response (Success):**
+  - **Status Code:** `200 OK`
+  - **Response Body:**
+    ```json
+    {
+      "status": "success",
+      "message": "Password changed successfully. Please login again with new password",
+      "data": {
+          "id": "xxxxx-xxx-xxx-...",
+          "email": "user@example.com",
+          "token": null,
+          "createdAt": "xxxx-xx-xx...",
+          "updatedAt": "xxxx-xx-xx..."
+      }
+    }
+    ```
 
-Endpoint : POST /api/v1/auth/verify_otp
+### 11. **Delete Account**
 
-Request Body :
-
-```json
-{
-  "otp": "666666"
-}
-```
-
-## Reset Password
-
-Endpoint : POST /api/v1/auth/reset_password
-
-Request Body :
-
-```json
-{
-  "password": "john123",
-  "confirmPassword": "john123"
-}
-```
-
-## Show Profile
-
-Endpoint : GET /api/v1/auth/profile
-
-Request Headers : Authorization (Bearer Token)
-
-## Update Profile
-
-Endpoint : PATCH /api/v1/auth/update_profile
-
-Request Headers : Authorization (Bearer Token)
-
-Request Body :
-
-```json
-{
-  "name": "John Doe",
-  "age": 21,
-  ...
-}
-```
-
-## Change Password
-
-Endpoint : PATCH /api/v1/auth/change_password
-
-Request Headers : Authorization (Bearer Token)
-
-Request Body :
-
-```json
-{
-  "oldPassword": "john123",
-  "newPassword": "john12345",
-  "confirmPassword": "john12345"
-}
-```
-
-## Delete Account
-
-Endpoint : DELETE /api/v1/auth/delete_account
-
-Request Headers : Authorization (Bearer Token)
-
-Request Body :
-
-```json
-{
-  "password": "john12345"
-}
-```
+- **Endpoint:** `/users/me`
+- **Method:** `DELETE`
+- **Headers:** `Authorization: Bearer {token}`
+- **Request Body:**
+  ```json
+  {
+    "password": "securepassword"
+  }
+  ```
+- **Response (Success):**
+  - **Status Code:** `200 OK`
+  - **Response Body:**
+    ```json
+    {
+      "status": "success",
+      "message": "Account deleted successfully",
+      "data": null
+    }
+    ```
