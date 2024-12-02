@@ -1,4 +1,4 @@
-const ApiError = require("./apiError");
+const ApiError = require("./ApiError");
 
 class ValidationError extends ApiError {
     constructor(message = null, errors) {

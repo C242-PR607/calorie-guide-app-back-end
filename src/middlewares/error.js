@@ -1,6 +1,6 @@
 const { ZodError } = require("zod");
 const NotFoundError = require("../exceptions/NotFoundError");
-const ApiError = require("../exceptions/apiError");
+const ApiError = require("../exceptions/ApiError");
 
 class ErrorMiddleware {
   static notFound(_, __, next) {

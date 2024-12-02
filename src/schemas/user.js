@@ -30,12 +30,14 @@ class UserSchema {
   }
 
   static addUserInfo() {
+    const genderEnum = z.enum(["male", "female"]);
+
     const addUserInfo = z.object({
       name: z.string({ required_error: "Name is required", invalid_type_error: "Name must be a string" }).min(3, "Name must be at least 3 characters").max(50, "Name must be at most 50 characters"),
       age: z.number({ required_error: "Age is required", invalid_type_error: "Age must be a number" }).min(1, "Age must be at least 1").max(100, "Age must be at most 100"),
       height: z.number({ required_error: "Height is required", invalid_type_error: "Height must be a number" }).min(1, "Height must be at least 1"),
       weight: z.number({ required_error: "Weight is required", invalid_type_error: "Weight must be a number" }).min(1, "Weight must be at least 1"),
-      gender: z.enum(["Male", "Female"], { required_error: "Gender is required", invalid_type_error: "Gender must be a string" }),
+      gender: z.string({ required_error: "Gender is required", invalid_type_error: "Gender must be a string" }).toLowerCase().refine((value) => genderEnum.options.includes(value), "Invalid gender. Valid options are: Male, Female."),
     });
 
     return addUserInfo;

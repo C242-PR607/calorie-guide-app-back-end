@@ -1,4 +1,4 @@
-const ApiError = require("./apiError");
+const ApiError = require("./ApiError");
 
 class DatabaseError extends ApiError {
   constructor(message) {
