@@ -1,14 +1,6 @@
 # User API Specification
 
-## Base URL
-
-- **Development:** `http://localhost:3000/api/v1`
-- **Staging:** 
-- **Production:** 
-
----
-
-### 1. **Register**
+## Register
 
 - **Endpoint:** `/auth/register`
 - **Method:** `POST`
@@ -34,7 +26,7 @@
     }
     ```
 
-### 2. **Verify OTP**
+## Verify OTP
 
 - **Endpoint:** `/auth/verify-otp`
 - **Method:** `POST`
@@ -62,7 +54,7 @@
     }
     ```
 
-### 3. **Add User Information**
+## Add User Information
 
 - **Endpoint:** `/users/me`
 - **Method:** `POST`
@@ -94,7 +86,7 @@
     }
     ```
 
-### 4. **Login**
+## Login
 
 - **Endpoint:** `/auth/login`
 - **Method:** `POST`
@@ -122,7 +114,7 @@
     }
     ```
 
-### 5. **Logout**
+## Logout
 
 - **Endpoint:** `/auth/logout`
 - **Method:** `POST`
@@ -144,7 +136,7 @@
     }
     ```
 
-### 6. **Forgot Password**
+## Forgot Password
 
 - **Endpoint:** `/auth/forgot-password`
 - **Method:** `POST`
@@ -167,7 +159,7 @@
       }
     }
     ```
-#### **Verify OTP**
+### Verify OTP
 
 - **Endpoint:** `/auth/verify-otp`
 - **Method:** `POST`
@@ -192,7 +184,7 @@
     }
     ```
 
-### 7. **Reset Password**
+## Reset Password
 
 - **Endpoint:** `/auth/reset-password`
 - **Method:** `PUT`
@@ -220,7 +212,7 @@
     }
     ```
 
-### 8. **Show Profile**
+## Show Profile
 
 - **Endpoint:** `/users/me`
 - **Method:** `GET`
@@ -246,7 +238,7 @@
     }
     ```
 
-### 9. **Update Profile**
+## Update Profile
 
 - **Endpoint:** `/users/me`
 - **Method:** `PATCH`
@@ -278,7 +270,7 @@
     }
     ```
 
-### 10. **Change Password**
+## Change Password
 
 - **Endpoint:** `/users/me/password`
 - **Method:** `PUT`
@@ -308,7 +300,7 @@
     }
     ```
 
-### 11. **Delete Account**
+## Delete Account
 
 - **Endpoint:** `/users/me`
 - **Method:** `DELETE`

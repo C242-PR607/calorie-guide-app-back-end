@@ -1,4 +1,4 @@
-const ApiError = require("./apiError");
+const ApiError = require("./ApiError");
 
 class AuthenticationError extends ApiError {
     constructor(message) {
