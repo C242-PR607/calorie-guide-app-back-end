@@ -131,7 +131,7 @@ This is the backend service for **Calorie Guide App**, built using Node.js as ru
     ```
 - **Production:**
     ```bash
-
+    http://34.50.85.182/api/v1
     ```
 
 ---
